@@ -1,33 +1,23 @@
+import { Injectable } from '@angular/core';
+import {Http, Headers, HttpModule} from '@angular/http';
+
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/map';
+
 import {Category} from './category';
 
+@Injectable()
 export class CategoryService{
 
-    private categoryList: Category[] = [];
+    public API_URL: string = 'http://localhost:8181/api';
+    
+    constructor(public http : Http){}
 
-    save(category: Category){
-        this.categoryList.push(category);
-    }
-
-    update(category: Category){
-        let index = this.categoryList.indexOf(category);
-        this.categoryList[index] = category;
-    }
-
-    findOne(id: number){
-        return this.categoryList.filter(
-            category => category.id == id
-        );
-    }
-
-    findAll(){
-        return this.categoryList;
-    }
-
-    delete(id:number){
-        this.categoryList = 
-            this.categoryList.filter(
-                category => category.id != id
-            );
+    findAll(): Observable<Category[]>{
+        return this.http
+            .get(`${this.API_URL}/pais`)
+            .map(res => res.json().content);
     }
 
 
